@@ -18,7 +18,8 @@ resource "aws_route_table" "main-public" {
 #For Assosiating Route Table
 
 resource "aws_route_table_association" "main-public-1-a" {
-    subnet_id = var.subnet_id
+    count = "${length(var.subnet_id)}"
+    subnet_id = var.subnet_id[count.index]
     route_table_id = aws_route_table.main-public.id
 }
 

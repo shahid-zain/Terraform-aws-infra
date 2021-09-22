@@ -34,7 +34,7 @@ module "my_ig" {
 # To Create NAT Gateway
 module "my_nat" {
     source = "../Modules/NAT"
-    subnet_id = [module.my_public_subnet.public1, module.my_public_subnet.public2]
+    subnet_id = module.my_public_subnet.public1
     nat_ig = module.my_ig.ig   
 }
 
