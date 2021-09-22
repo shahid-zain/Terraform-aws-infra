@@ -1,6 +1,9 @@
 provider "aws" {
   region = var.aws_region
 }
+data "http" "myip" {
+  url = "http://ipv4.icanhazip.com"
+}
 resource "aws_security_group" "allow-ssh" {
     vpc_id = var.vpc_id
     name = "allow-ssh"
@@ -15,7 +18,7 @@ resource "aws_security_group" "allow-ssh" {
         from_port = var.from_port
         to_port = var.to_port
         protocol = "tcp"
-        cidr_blocks = ["0.0.0.0/0"]
+        cidr_blocks = ["${chomp(data.http.myip.body)}/32","0.0.0.0/0"]
     }
     ingress {
         from_port = var.from_port2

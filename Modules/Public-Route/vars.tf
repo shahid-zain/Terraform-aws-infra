@@ -3,5 +3,4 @@ variable "aws_region" {
 }
 variable "vpc_id" {}
 variable "ig_id" {}
-variable "subnet_id1" {}
-variable "subnet_id2" {}
+variable "subnet_id" {}

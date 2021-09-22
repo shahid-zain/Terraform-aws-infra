@@ -1,17 +1,19 @@
 # To Create VPC
 module "my_vpc" {
     source = "../Modules/VPC"
-    vpc_cidr = "10.3.0.0/16"
+    vpc_cidr = "10.0.0.0/16"
     aws_region = "ca-central-1" 
     vpc_id = module.my_vpc.vpc_id
 }
-# To Create Public Subnet
+# To Create Public Subnets
 module "my_public_subnet" {
     source = "../Modules/Public-Subnet"
     vpc_id = module.my_vpc.vpc_id
     aws_region = "ca-central-1"
-    subnet1_cidr = "10.3.1.0/24"
+    subnet1_cidr = "10.0.1.0/24"
     subnet1_az = "ca-central-1a"
+    subnet2_cidr = "10.0.2.0/24"
+    subnet2_az = "ca-central-1b"
 }
 
 # To Create Private Subnet
@@ -19,8 +21,8 @@ module "my_private_subnet" {
     source = "../Modules/Private-Subnet"
     vpc_id = module.my_vpc.vpc_id
     aws_region = "ca-central-1"
-    subnet2_cidr = "10.3.2.0/24"
-    subnet2_az = "ca-central-1b"
+    subnet2_cidr = "10.0.3.0/24"
+    subnet2_az = "ca-central-1a"
 }
 
 # To Create Internet Gateway
@@ -32,7 +34,7 @@ module "my_ig" {
 # To Create NAT Gateway
 module "my_nat" {
     source = "../Modules/NAT"
-    subnet_id = module.my_public_subnet.public1
+    subnet_id = [module.my_public_subnet.public1,module.my_public_subnet.public2]
     nat_ig = module.my_ig.ig
     
 }

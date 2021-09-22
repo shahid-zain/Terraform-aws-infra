@@ -4,7 +4,7 @@ provider "aws" {
 resource "aws_internet_gateway" "main-gw" { 
     vpc_id = var.vpc_id
     tags = {
-      "Name" = "Rishi-IG"
+      "Name" = "Shahid-IG"
     }
   
 }
