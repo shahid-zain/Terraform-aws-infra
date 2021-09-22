@@ -21,8 +21,8 @@ module "my_private_subnet" {
     source = "../Modules/Private-Subnet"
     vpc_id = module.my_vpc.vpc_id
     aws_region = "ca-central-1"
-    subnet2_cidr = "10.0.3.0/24"
-    subnet2_az = "ca-central-1a"
+    subnet3_cidr = "10.0.3.0/24"
+    subnet3_az = "ca-central-1a"
 }
 
 # To Create Internet Gateway
@@ -34,17 +34,17 @@ module "my_ig" {
 # To Create NAT Gateway
 module "my_nat" {
     source = "../Modules/NAT"
-    subnet_id = [module.my_public_subnet.public1,module.my_public_subnet.public2]
-    nat_ig = module.my_ig.ig
-    
+    subnet_id = [module.my_public_subnet.public1, module.my_public_subnet.public2]
+    nat_ig = module.my_ig.ig   
 }
+
 # To Create And Assosiate Route Table To Public Subnet
 module "public_route" {
     source = "../Modules/Public-Route"
     aws_region = "ca-central-1"
     vpc_id = module.my_vpc.vpc_id
     ig_id = module.my_ig.ig_id
-    subnet_id = module.my_public_subnet.public1
+    subnet_id = [module.my_public_subnet.public1,module.my_public_subnet.public2]
 }
 # To Create And Assosiate Route Table To Private Subnet
 module "private_route" {
