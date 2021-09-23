@@ -16,6 +16,7 @@ resource "aws_route_table" "main-private" {
 
 # For Route Association Private
 resource "aws_route_table_association" "main-private-1-a" {
-    subnet_id = var.subnet_id
+    count = "${length(var.subnet_id)}"
+    subnet_id = var.subnet_id[count.index]
     route_table_id = aws_route_table.main-private.id
 }

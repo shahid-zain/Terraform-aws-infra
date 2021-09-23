@@ -23,6 +23,8 @@ module "my_private_subnet" {
     aws_region = "ca-central-1"
     subnet3_cidr = "10.0.3.0/24"
     subnet3_az = "ca-central-1a"
+    subnet4_cidr = "10.0.4.0/24"
+    subnet4_az = "ca-central-1b"
 }
 
 # To Create Internet Gateway
@@ -52,11 +54,10 @@ module "private_route" {
     aws_region = "ca-central-1"
     vpc_id = module.my_vpc.vpc_id
     nat_id = module.my_nat.nat_id
-    subnet_id = module.my_private_subnet.private1
+    subnet_id = [module.my_private_subnet.private1,module.my_private_subnet.private2]
 }
 
-# Ro Create Security Groups With Port Open 22 & 80
-
+# To Create Security Groups With Port Open 22 & 80
 module "my_security_group" {
     source = "../Modules/Security-Group"
     aws_region = "ca-central-1"
