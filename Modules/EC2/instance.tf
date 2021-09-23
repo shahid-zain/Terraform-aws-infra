@@ -1,7 +1,7 @@
 provider "aws" {
   region = var.aws_region
 }
-resource "aws_instance" "example" {
+resource "aws_instance" "myinstance" {
     ami = var.ami_id
     count = 1
     instance_type = var.instance_type
@@ -11,6 +11,8 @@ resource "aws_instance" "example" {
 
     tags = {
       Name = "Terraform-Created"
-    }
-    
+    }   
+}
+output "instance_ip" {
+  value = aws_subnet.myinstance.public_ip
 }

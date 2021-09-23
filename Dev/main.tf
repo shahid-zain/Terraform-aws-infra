@@ -85,3 +85,23 @@ module "my_key" {
     source = "../Modules/Key-Pair"
     aws_region = "ca-central-1"
 }
+
+resource "null_resource" "execute1" {
+    connection {
+    type = "ssh"
+    host = module.my_ec2.instance_ip
+    user = "ubuntu"
+    private_key = file("../Modules/Key-Pair/mykey")
+    } 
+  provisioner "file" {
+    source      = "script.sh"
+    destination = "/tmp/script.sh"
+  }
+  
+   provisioner "remote-exec" {
+    inline = [
+      "sudo chmod 500 /tmp/script.sh",
+      "sudo sh /tmp/script.sh",
+    ]
+  }
+  }
