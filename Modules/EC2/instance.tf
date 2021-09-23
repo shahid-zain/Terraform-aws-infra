@@ -14,5 +14,5 @@ resource "aws_instance" "myinstance" {
     }   
 }
 output "instance_ip" {
-  value = aws_subnet.myinstance.public_ip
+  value = join("", aws_instance.myinstance[*].public_ip)
 }
