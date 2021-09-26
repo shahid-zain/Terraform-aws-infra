@@ -10,17 +10,6 @@ resource "aws_launch_template" "foobar" {
   vpc_security_group_ids = [var.vpc_security_group_ids]
 }
 
-# To Create ASG Group
-resource "aws_autoscaling_group" "bar" {
-  desired_capacity   = var.desired_capacity
-  max_size           = var.max_size
-  min_size           = var.min_size
-  vpc_zone_identifier = [var.subnet1, var.subnet2]
-  launch_template {
-    id      = aws_launch_template.foobar.id
-    version = "$Latest"
-  }
-}
 
 # To create autoschedule
 
@@ -30,6 +19,19 @@ resource "aws_lb_target_group" "test" {
   port     = var.port
   protocol = var.protocol
   vpc_id   = var.vpc_id
+}
+
+# To Create ASG Group
+resource "aws_autoscaling_group" "bar" {
+  desired_capacity   = var.desired_capacity
+  max_size           = var.max_size
+  min_size           = var.min_size
+  vpc_zone_identifier = [var.subnet1, var.subnet2]
+  target_group_arns = [aws_lb_target_group.test.arn]
+  launch_template {
+    id      = aws_launch_template.foobar.id
+    version = "$Latest"
+  }
 }
 
 # To Create Elastic Load Balancer
