@@ -24,16 +24,6 @@ resource "aws_autoscaling_group" "bar" {
 
 # To create autoschedule
 
-resource "aws_autoscaling_schedule" "foobar" {
-  scheduled_action_name  = "foobar"
-  min_size               = var.min_size
-  max_size               = var.max_size
-  desired_capacity       = var.desired_capacity
-  start_time             = "2021-09-20T18:00:00Z"
-  end_time               = "2021-09-21T18:00:00Z"
-  autoscaling_group_name = aws_autoscaling_group.bar.name
-}
-
 # To Create Target Group
 resource "aws_lb_target_group" "test" {
   name     = var.name

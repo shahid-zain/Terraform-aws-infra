@@ -36,6 +36,7 @@ resource "aws_db_instance" "default" {
   username               = var.uname
   password               = var.password
   skip_final_snapshot    = var.snap
+  multi_az               = true
   vpc_security_group_ids = [aws_security_group.database-sg.id]
 }
 
